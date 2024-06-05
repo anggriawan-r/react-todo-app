@@ -21,11 +21,21 @@ export default function App() {
     },
   ]);
 
+  const toggleCompleted = (todoId) => {
+    const updateTodos = todos.map((todo) => {
+      if (todo.id === todoId) {
+        todo.completed = !todo.completed;
+      }
+      return todo;
+    });
+    setTodos(updateTodos);
+  };
+
   return (
     <main className="bg-zinc-900 relative flex flex-col min-h-screen text-white justify-center">
       <MaxWIdthWrapper>
-        <h1 className="text-3xl font-semibold py-8">Welcome Back!</h1>
-        <Todos todos={todos} />
+        <h1 className="text-3xl font-bold py-8">Welcome Back!</h1>
+        <Todos todos={todos} toggleCompleted={toggleCompleted} />
       </MaxWIdthWrapper>
     </main>
   );
