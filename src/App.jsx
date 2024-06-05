@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import { createContext, useState } from 'react';
 import Todos from './components/Todos';
 import MaxWIdthWrapper from './components/MaxWIdthWrapper';
 import TodoForm from './components/TodoForm';
+
+export const TodoContext = createContext();
 
 export default function App() {
   const [todos, setTodos] = useState([
@@ -9,16 +11,34 @@ export default function App() {
       id: 1,
       title: 'Finish Progate React Course',
       completed: false,
+      date: {
+        date: 1,
+        month: 6,
+        year: 2024,
+      },
+      time: '12:30',
     },
     {
       id: 2,
       title: 'Have lunch with Guru Domba',
       completed: false,
+      date: {
+        date: 2,
+        month: 6,
+        year: 2024,
+      },
+      time: '12:30',
     },
     {
       id: 3,
       title: 'Study React with Ninja Ken',
       completed: false,
+      date: {
+        date: 3,
+        month: 6,
+        year: 2024,
+      },
+      time: '12:30',
     },
   ]);
 
@@ -39,13 +59,14 @@ export default function App() {
     setTodos(updateTodos);
   };
 
-  const addTodo = (todoTitle) => {
+  const addTodo = (todoTitle, todoDate) => {
     if (todoTitle === '') return;
 
     const newTodo = {
       id: todos.length + 1,
       title: todoTitle,
       completed: false,
+      ...todoDate,
     };
 
     const updatedTodos = todos.concat(newTodo);
@@ -53,16 +74,14 @@ export default function App() {
   };
 
   return (
-    <main className="bg-zinc-900 relative flex flex-col min-h-screen text-white justify-center">
-      <MaxWIdthWrapper>
-        <h1 className="text-3xl font-bold py-8">Welcome Back!</h1>
-        <TodoForm addTodo={addTodo} />
-        <Todos
-          todos={todos}
-          toggleCompleted={toggleCompleted}
-          deleteTodo={deleteTodo}
-        />
-      </MaxWIdthWrapper>
-    </main>
+    <TodoContext.Provider value={{ toggleCompleted, deleteTodo }}>
+      <main className="bg-zinc-900 relative flex flex-col min-h-screen text-white justify-center">
+        <MaxWIdthWrapper>
+          <h1 className="text-3xl font-bold py-8">Welcome Back!</h1>
+          <TodoForm addTodo={addTodo} />
+          <Todos todos={todos} />
+        </MaxWIdthWrapper>
+      </main>
+    </TodoContext.Provider>
   );
 }
