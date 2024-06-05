@@ -2,10 +2,13 @@ import { createContext, useState } from 'react';
 import Todos from './components/Todos';
 import MaxWIdthWrapper from './components/MaxWIdthWrapper';
 import TodoForm from './components/TodoForm';
+import EditFormModal from './components/EditFormModal';
 
 export const TodoContext = createContext();
 
 export default function App() {
+  const [showModal, setShowModal] = useState(false);
+  const [edittingTodo, setEdittingTodo] = useState({});
   const [todos, setTodos] = useState([
     {
       id: 1,
@@ -23,7 +26,7 @@ export default function App() {
       title: 'Have lunch with Guru Domba',
       completed: false,
       date: {
-        date: 2,
+        date: 1,
         month: 6,
         year: 2024,
       },
@@ -34,7 +37,7 @@ export default function App() {
       title: 'Study React with Ninja Ken',
       completed: false,
       date: {
-        date: 3,
+        date: 1,
         month: 6,
         year: 2024,
       },
@@ -73,8 +76,35 @@ export default function App() {
     setTodos(updatedTodos);
   };
 
+  const editTodo = (todoId, todoData) => {
+    const index = todos.findIndex((todo) => todo.id === todoId);
+
+    const updatedTodos = [...todos];
+    updatedTodos[index] = { ...updatedTodos[index], ...todoData };
+    setTodos(updatedTodos);
+  };
+
+  const handleOpenModal = (todoId) => {
+    const index = todos.findIndex((todo) => todo.id === todoId);
+
+    setEdittingTodo(todos[index]);
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
   return (
-    <TodoContext.Provider value={{ toggleCompleted, deleteTodo }}>
+    <TodoContext.Provider
+      value={{
+        toggleCompleted,
+        deleteTodo,
+        handleOpenModal,
+        handleCloseModal,
+        editTodo,
+      }}
+    >
       <main className="bg-zinc-900 relative flex flex-col min-h-screen text-white justify-center">
         <MaxWIdthWrapper>
           <h1 className="text-3xl font-bold py-8">Welcome Back!</h1>
@@ -82,6 +112,14 @@ export default function App() {
           <Todos todos={todos} />
         </MaxWIdthWrapper>
       </main>
+
+      {showModal && (
+        <EditFormModal
+          isEdit={showModal}
+          close={handleCloseModal}
+          todo={edittingTodo}
+        />
+      )}
     </TodoContext.Provider>
   );
 }
