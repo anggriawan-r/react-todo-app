@@ -40,9 +40,7 @@ export default function App() {
   };
 
   const addTodo = (todoTitle) => {
-    if (todoTitle === '') {
-      return;
-    }
+    if (todoTitle === '') return;
 
     const newTodo = {
       id: todos.length + 1,
