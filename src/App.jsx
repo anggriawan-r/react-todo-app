@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Todos from './components/Todos';
+import MaxWIdthWrapper from './components/MaxWIdthWrapper';
 
 export default function App() {
   const [todos, setTodos] = useState([
@@ -21,9 +22,11 @@ export default function App() {
   ]);
 
   return (
-    <div>
-      <h1 className="text-3xl font-bold underline">My Todo List</h1>
-      <Todos todos={todos} />
-    </div>
+    <main className="bg-zinc-900 relative flex flex-col min-h-screen text-white justify-center">
+      <MaxWIdthWrapper>
+        <h1 className="text-3xl font-semibold py-8">Welcome Back!</h1>
+        <Todos todos={todos} />
+      </MaxWIdthWrapper>
+    </main>
   );
 }
