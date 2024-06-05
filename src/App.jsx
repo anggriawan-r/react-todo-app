@@ -31,11 +31,22 @@ export default function App() {
     setTodos(updateTodos);
   };
 
+  const deleteTodo = (todoId) => {
+    const updateTodos = todos.filter((todo) => {
+      return todo.id !== todoId;
+    });
+    setTodos(updateTodos);
+  };
+
   return (
     <main className="bg-zinc-900 relative flex flex-col min-h-screen text-white justify-center">
       <MaxWIdthWrapper>
         <h1 className="text-3xl font-bold py-8">Welcome Back!</h1>
-        <Todos todos={todos} toggleCompleted={toggleCompleted} />
+        <Todos
+          todos={todos}
+          toggleCompleted={toggleCompleted}
+          deleteTodo={deleteTodo}
+        />
       </MaxWIdthWrapper>
     </main>
   );

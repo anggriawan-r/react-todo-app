@@ -1,24 +1,24 @@
-import { Check } from 'lucide-react';
+import { Trash2 } from 'lucide-react';
+import Checkbox from './Checkbox';
 
-function TodoItem({ todo, toggleCompleted }) {
+function TodoItem({ todo, toggleCompleted, deleteTodo }) {
   return (
-    <div className="flex items-center gap-4">
-      <div className="relative flex items-center">
-        <input
-          type="checkbox"
-          className="peer size-8 cursor-pointer appearance-none rounded-full border border-blue-500 checked:border-blue-500 checked:bg-blue-500 checked:text-white"
-          onChange={() => toggleCompleted(todo.id)}
-        />
-        <span className="size-12 bg-blue-500 opacity-0 rounded-full pointer-events-none absolute left-1/2 -translate-x-1/2 peer-hover:opacity-25 transition-opacity"></span>
-        <Check
-          className="text-white absolute left-1/2 -translate-x-1/2 pointer-events-none invisible peer-checked:visible"
-          strokeWidth={3}
-          size={24}
-        />
+    <div className="flex items-center justify-between gap-4">
+      <div className="flex items-center gap-4">
+        <Checkbox toggleCompleted={toggleCompleted} todoId={todo.id} />
+        <p className={todo.completed ? 'line-through opacity-50' : ''}>
+          {todo.title}
+        </p>
       </div>
-      <p className={todo.completed ? 'line-through opacity-50' : ''}>
-        {todo.title}
-      </p>
+
+      <div className="flex gap-2">
+        <button
+          onClick={() => deleteTodo(todo.id)}
+          className="size-10 flex items-center justify-center rounded-md hover:bg-white/15 transition-all"
+        >
+          <Trash2 size={20} className="text-red-500" />
+        </button>
+      </div>
     </div>
   );
 }
