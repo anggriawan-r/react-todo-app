@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Todos from './components/Todos';
 import MaxWIdthWrapper from './components/MaxWIdthWrapper';
+import TodoForm from './components/TodoForm';
 
 export default function App() {
   const [todos, setTodos] = useState([
@@ -38,10 +39,26 @@ export default function App() {
     setTodos(updateTodos);
   };
 
+  const addTodo = (todoTitle) => {
+    if (todoTitle === '') {
+      return;
+    }
+
+    const newTodo = {
+      id: todos.length + 1,
+      title: todoTitle,
+      completed: false,
+    };
+
+    const updatedTodos = todos.concat(newTodo);
+    setTodos(updatedTodos);
+  };
+
   return (
     <main className="bg-zinc-900 relative flex flex-col min-h-screen text-white justify-center">
       <MaxWIdthWrapper>
         <h1 className="text-3xl font-bold py-8">Welcome Back!</h1>
+        <TodoForm addTodo={addTodo} />
         <Todos
           todos={todos}
           toggleCompleted={toggleCompleted}
